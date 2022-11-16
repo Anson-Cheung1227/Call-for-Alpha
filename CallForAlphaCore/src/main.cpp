@@ -1,35 +1,52 @@
 #include "raylib.h"
 #include "Player.h"
 #include "Utils.h"
+#include <math.h>
+
+const int screenWidth = 1920;
+const int screenHeight = 1080;
 
 int main(void)
 {
-    
-    const int screenWidth = 1920;
-    const int screenHeight = 1080;
+    #pragma region Window
 
     SetConfigFlags(FLAG_MSAA_4X_HINT);
 
     InitWindow(screenWidth, screenHeight, "Call For Alpha - Developer version");
 
-    Image playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{15, 10, 56, 91});
-    
-    Player player = Player(LoadTextureFromImage(playerImage), Vector2{screenWidth/2, screenHeight/2});
-
     SetExitKey(KEY_NULL);
 
-    SetTargetFPS(60);               
+    #pragma endregion Window
+
+    std::list<Texture2D> playerTexture;
+
+    std::list<Texture2D>::iterator iter = playerTexture.begin();
+
+    Image playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{0, 0, 96, 96});
+    playerTexture.insert(playerTexture.begin(), LoadTextureFromImage(playerImage));
+    iter = playerTexture.end();
+    for (int i = 0; i < 3; i++)
+    {
+        playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{96 * i, 96 * 3, 96, 96});
+
+        playerTexture.insert(iter, LoadTextureFromImage(playerImage));
+
+        iter++;
+    }
+
+    Player player = Player(playerTexture, Vector2{screenWidth/2, screenHeight/2});
+
+    UnloadImage(playerImage);
+
     while (!WindowShouldClose())
     {
-        if (IsKeyDown(KEY_A)) player.playerPosition.x += -1;    //left
-        if (IsKeyDown(KEY_D)) player.playerPosition.x += 1;     //right
-        if (IsKeyDown(KEY_W)) player.playerPosition.y += -1;    //up
-        if (IsKeyDown(KEY_S)) player.playerPosition.y += 1;     //down
+        player.GetMovement();
 
         BeginDrawing();
 
-            DrawTextureEx(player.playerSprite, Vector2{player.playerPosition.x - player.playerSprite.width/2, player.playerPosition.y - player.playerSprite.height/2}, 0, 1, WHITE);
-            ClearBackground(RAYWHITE);
+            DrawFPS(10, 15);
+            player.Update();
+            ClearBackground(BLACK);
 
         EndDrawing();
     }

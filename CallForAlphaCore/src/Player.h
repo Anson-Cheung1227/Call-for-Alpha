@@ -1,11 +1,17 @@
 #pragma once
 
-#include "raylib.h"
+#include "Entity.h"
 
-class Player
+class Player : public Entity
 {
+private:
+    std::list<Texture2D>::iterator animationIter;
+    float frame; 
 public:
-    Player(Texture2D sprite, Vector2 position);
-    Vector2 playerPosition;
-    Texture2D playerSprite;
+    const int SPEED = 100;
+    float angle;
+    Vector2 move;
+    Player(std::list<Texture2D> sprite, Vector2 position);
+    void GetMovement();
+    void Update() override;
 };
