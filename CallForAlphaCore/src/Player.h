@@ -15,4 +15,5 @@ public:
     Player(std::list<Texture2D> sprite, Vector2 position);
     void GetMovement();
     void Update() override;
+    void DrawUpdate() override;
 };

@@ -12,7 +12,7 @@ Player::Player(std::list<Texture2D> sprite, Vector2 pos) : Entity(sprite, pos)
     animationIter = texture.begin();
 }
 
-void Player::GetMovement()
+void Player::Update()
 {
     move.x = 0;
     move.y = 0;
@@ -25,11 +25,11 @@ void Player::GetMovement()
     angle = RadiantToDegrees(atan2(GetMouseY() - position.y + 20, GetMouseX() - position.x + 24));
 }
 
-void Player::Update()
+void Player::DrawUpdate()
 {
     if(move.x == 0 && move.y == 0) animationIter = texture.begin();
     else if (animationIter == texture.begin()) animationIter++;
-    DrawTexturePro(*animationIter, Rectangle{0,0, (*animationIter).width, (*animationIter).height}, Rectangle{position.x,position.y, (*animationIter).width, (*animationIter).height}, Vector2{48, 72}, angle + 90, WHITE);
+    DrawTexturePro(*animationIter, Rectangle{0,0, (float)(*animationIter).width, (float)(*animationIter).height}, Rectangle{position.x,position.y, (float)(*animationIter).width, (float)(*animationIter).height}, Vector2{48, 72}, angle + 90, WHITE);
     frame += GetFrameTime();
     if (frame > 0.1)
     {

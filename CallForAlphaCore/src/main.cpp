@@ -1,5 +1,7 @@
 #include "raylib.h"
+#include "Entity.h"
 #include "Player.h"
+#include "Gun.h"
 #include "Utils.h"
 #include <math.h>
 
@@ -17,7 +19,7 @@ int main(void)
     SetExitKey(KEY_NULL);
 
     #pragma endregion Window
-
+    #pragma region Player
     std::list<Texture2D> playerTexture;
 
     std::list<Texture2D>::iterator iter = playerTexture.begin();
@@ -30,7 +32,7 @@ int main(void)
 
     for (int i = 0; i < 3; i++)
     {
-        playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{96 * i, 96 * 3, 96, 96});
+        playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{(float)(96 * i), 96 * 3, 96, 96});
 
         playerTexture.insert(iter, LoadTextureFromImage(playerImage));
 
@@ -41,21 +43,28 @@ int main(void)
 
     UnloadImage(playerImage);
 
+    #pragma endregion Player
+
+    std::list<Texture2D> gunTexture;
+
     Image pistolImage = CropImageFromFile("../resources/GUNS_V1.00/V1.00/Sprite-sheets/Pistol_V1.00/Weapon/[FULL]PistolV1.01.png", Rectangle{0,0,32,32});
-    Texture2D gun = LoadTextureFromImage(pistolImage);
-    GenTextureMipmaps(&gun);
+    
+    gunTexture.insert(gunTexture.begin(), LoadTextureFromImage(pistolImage));
+
+    Gun gun = Gun(gunTexture, Vector2{0,0});
 
     UnloadImage(pistolImage);
 
     while (!WindowShouldClose())
     {
-        player.GetMovement();
-
+        player.Update();
+        gun.position = player.position;
+        gun.angle = player.angle;
         BeginDrawing();
 
             DrawFPS(10, 15);
-            player.Update();
-            DrawTexturePro(gun, Rectangle{0,0,32,32}, Rectangle{player.position.x,player.position.y,32,32}, Vector2{-10,16}, player.angle + 90, WHITE);
+            player.DrawUpdate();
+            gun.DrawUpdate();
             ClearBackground(BLACK);
 
         EndDrawing();
