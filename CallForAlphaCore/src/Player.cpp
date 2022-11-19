@@ -2,14 +2,37 @@
 #include "Utils.h"
 #include <math.h>
 
-Player::Player(std::list<Texture2D> sprite, Vector2 pos) : Entity(sprite, pos)
+extern const int screenWidth;
+extern const int screenHeight;
+
+Player::Player() : Entity()
 {
     frame = 0;
-    for (std::list<Texture2D>::iterator iter = texture.begin(); iter != texture.end(); iter++)
+
+    std::list<Texture2D>::iterator iter = texture.begin();
+
+    Image playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{0, 0, 96, 96});
+
+    texture.insert(texture.begin(), LoadTextureFromImage(playerImage));
+    
+    iter = texture.end();
+
+    for (int i = 0; i < 3; i++)
+    {
+        playerImage = CropImageFromFile("../resources/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x3.png", Rectangle{(float)96 * i, 96 * 3, 96, 96});
+
+        texture.insert(iter, LoadTextureFromImage(playerImage));
+
+        iter++;
+    }
+
+    for (iter = texture.begin(); iter != texture.end(); iter++)
     {
         GenTextureMipmaps(&*iter);
     }
-    animationIter = texture.begin();
+    position = Vector2{(float)screenWidth/2, (float)screenHeight/2};
+
+    UnloadImage(playerImage);
 }
 
 void Player::Update()

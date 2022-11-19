@@ -5,7 +5,14 @@ class Gun : public Entity
 {
 public:
     float angle;
-    Gun(std::list<Texture2D> sprite, Vector2 pos);
+    Gun();
     void Update() override;
+    void DrawUpdate() override;
+};
+
+class Pistol : public Gun
+{    
+public:
+    Pistol();
     void DrawUpdate() override;
 };

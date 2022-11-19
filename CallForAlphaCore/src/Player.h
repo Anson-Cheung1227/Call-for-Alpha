@@ -12,8 +12,7 @@ private:
     float frame; 
 public:
     float angle;
-    Player(std::list<Texture2D> sprite, Vector2 position);
-    void GetMovement();
-    void Update() override;
+    Player();
     void DrawUpdate() override;
+    void Update() override;
 };
