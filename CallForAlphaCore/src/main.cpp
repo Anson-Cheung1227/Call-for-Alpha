@@ -22,13 +22,7 @@ int main(void)
 
     Player player = Player();
 
-    std::list<Texture2D> gunTexture;
-    Image pistolImage = CropImageFromFile("../resources/GUNS_V1.00/V1.00/Sprite-sheets/Pistol_V1.00/Weapon/[FULL]PistolV1.01.png", Rectangle{0,0,32,32});
-    gunTexture.insert(gunTexture.begin(), LoadTextureFromImage(pistolImage));
-
     Pistol pistol = Pistol();
-
-    UnloadImage(pistolImage);
 
     while (!WindowShouldClose())
     {
