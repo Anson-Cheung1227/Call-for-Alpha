@@ -1,5 +1,5 @@
 main.exe: obj/main.o obj/Player.o obj/Utils.o obj/Entity.o obj/Gun.o
-	g++ -g obj/main.o obj/Player.o obj/Utils.o obj/Entity.o obj/Gun.o -o main.exe -static-libgcc -static-libstdc++ -Wall -Wno-missing-braces -I ../include/raylib -L ../libs/raylib -lraylib -lopengl32 -lgdi32 -lwinmm
+	g++ -g obj/main.o obj/Player.o obj/Utils.o obj/Entity.o obj/Gun.o -o main.exe -static-libgcc -static-libstdc++ -Wall -Wno-missing-braces -I ../include/raylib -L ../libs/raylib -dynamic -lraylib -lopengl32 -lgdi32 -lwinmm -static -lstdc++ -lpthread
 obj/main.o: ../src/main.cpp
 	g++ -g -c ../src/main.cpp -o obj/main.o -I ../include/raylib
 obj/Player.o: ../src/Player.cpp ../src/Player.h 
