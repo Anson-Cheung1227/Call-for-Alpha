@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Utils.h"
+#include "EntityManager.h"
 #include <math.h>
 
 extern const int screenWidth;
